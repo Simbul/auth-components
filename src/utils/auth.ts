@@ -1,6 +1,30 @@
 import { createCookie } from "react-router";
 import { COOKIE_CONFIG } from "./session.js";
 
+// Helper to get environment variables that works in both Node.js and browser/Vite
+function getEnv(name: string): string | undefined {
+  // Check import.meta.env first (Vite/browser)
+  if (typeof import.meta !== 'undefined' && import.meta.env) {
+    return import.meta.env[name];
+  }
+  // Fall back to process.env (Node.js/server)
+  if (typeof process !== 'undefined' && process.env) {
+    return process.env[name];
+  }
+  return undefined;
+}
+
+// Helper to check if running in production
+function isProd(): boolean {
+  if (typeof import.meta !== 'undefined' && import.meta.env) {
+    return import.meta.env.PROD === true;
+  }
+  if (typeof process !== 'undefined' && process.env) {
+    return process.env.NODE_ENV === 'production';
+  }
+  return false;
+}
+
 // Auth0 configuration and types
 interface Auth0Config {
   domain: string;
@@ -23,14 +47,14 @@ export interface TokenResponse {
 const stateCookie = createCookie("__auth_state", {
   maxAge: COOKIE_CONFIG.AUTH_STATE_MAX_AGE,
   httpOnly: true,
-  secure: import.meta.env.PROD,
+  secure: isProd(),
   sameSite: "lax",
   path: "/",
 });
 
 // Environment variable validation
 function getRequiredEnvVar(name: string): string {
-  const value = import.meta.env[name];
+  const value = getEnv(name);
   if (!value) {
     throw new Error(`Missing required environment variable: ${name}`);
   }
@@ -56,7 +80,7 @@ export function getAuth0Config(request: Request): Auth0Config {
     clientId: getRequiredEnvVar("AUTH0_CLIENT_ID"),
     clientSecret: getRequiredEnvVar("AUTH0_CLIENT_SECRET"),
     callbackUrl: new URL("/auth/callback", getBaseUrl(request)).toString(),
-    audience: import.meta.env.AUTH0_AUDIENCE,
+    audience: getEnv("AUTH0_AUDIENCE"),
   };
 }
 

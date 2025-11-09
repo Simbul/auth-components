@@ -1,9 +1,33 @@
 import type { SessionData } from "./session.js";
 
+// Helper to get environment variables that works in both Node.js and browser/Vite
+function getEnv(name: string): string | undefined {
+  // Check import.meta.env first (Vite/browser)
+  if (typeof import.meta !== 'undefined' && import.meta.env) {
+    return import.meta.env[name];
+  }
+  // Fall back to process.env (Node.js/server)
+  if (typeof process !== 'undefined' && process.env) {
+    return process.env[name];
+  }
+  return undefined;
+}
+
+// Helper to get the current mode/environment
+function getMode(): string {
+  if (typeof import.meta !== 'undefined' && import.meta.env) {
+    return import.meta.env.MODE || 'development';
+  }
+  if (typeof process !== 'undefined' && process.env) {
+    return process.env.NODE_ENV || 'development';
+  }
+  return 'development';
+}
+
 // Check if we should skip auth (development mode by default, unless explicitly disabled)
 export function shouldSkipAuth(): boolean {
-  const nodeEnv = import.meta.env.MODE;
-  const skipAuth = import.meta.env.SKIP_AUTH;
+  const nodeEnv = getMode();
+  const skipAuth = getEnv("SKIP_AUTH");
 
   // In development, skip auth by default unless explicitly disabled
   if (nodeEnv === "development") {

@@ -1,6 +1,30 @@
 import { createCookie } from "react-router";
 import type { TokenResponse } from "./auth.js";
 
+// Helper to get environment variables that works in both Node.js and browser/Vite
+function getEnv(name: string): string | undefined {
+  // Check import.meta.env first (Vite/browser)
+  if (typeof import.meta !== 'undefined' && import.meta.env) {
+    return import.meta.env[name];
+  }
+  // Fall back to process.env (Node.js/server)
+  if (typeof process !== 'undefined' && process.env) {
+    return process.env[name];
+  }
+  return undefined;
+}
+
+// Helper to check if running in production
+function isProd(): boolean {
+  if (typeof import.meta !== 'undefined' && import.meta.env) {
+    return import.meta.env.PROD === true;
+  }
+  if (typeof process !== 'undefined' && process.env) {
+    return process.env.NODE_ENV === 'production';
+  }
+  return false;
+}
+
 // Cookie and Session Configuration
 const COOKIE_CONFIG = {
   // Maximum lifetime of the session cookie (24 hours)
@@ -16,14 +40,14 @@ const COOKIE_CONFIG = {
 } as const;
 
 // Session cookie configuration
-const SESSION_SECRET = import.meta.env.SESSION_SECRET || "default-secret-key-for-dev";
+const SESSION_SECRET = getEnv("SESSION_SECRET") || "default-secret-key-for-dev";
 
 export const sessionCookie = createCookie("__session", {
   secrets: [SESSION_SECRET],
   sameSite: "lax",
   path: "/",
   httpOnly: true,
-  secure: import.meta.env.PROD,
+  secure: isProd(),
   maxAge: COOKIE_CONFIG.SESSION_MAX_AGE,
 });
 
