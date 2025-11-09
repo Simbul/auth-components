@@ -23,14 +23,14 @@ export interface TokenResponse {
 const stateCookie = createCookie("__auth_state", {
   maxAge: COOKIE_CONFIG.AUTH_STATE_MAX_AGE,
   httpOnly: true,
-  secure: process.env.NODE_ENV === "production",
+  secure: import.meta.env.PROD,
   sameSite: "lax",
   path: "/",
 });
 
 // Environment variable validation
 function getRequiredEnvVar(name: string): string {
-  const value = process.env[name];
+  const value = import.meta.env[name];
   if (!value) {
     throw new Error(`Missing required environment variable: ${name}`);
   }
@@ -56,7 +56,7 @@ export function getAuth0Config(request: Request): Auth0Config {
     clientId: getRequiredEnvVar("AUTH0_CLIENT_ID"),
     clientSecret: getRequiredEnvVar("AUTH0_CLIENT_SECRET"),
     callbackUrl: new URL("/auth/callback", getBaseUrl(request)).toString(),
-    audience: process.env.AUTH0_AUDIENCE,
+    audience: import.meta.env.AUTH0_AUDIENCE,
   };
 }
 

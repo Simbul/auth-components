@@ -16,14 +16,14 @@ const COOKIE_CONFIG = {
 } as const;
 
 // Session cookie configuration
-const SESSION_SECRET = process.env.SESSION_SECRET || "default-secret-key-for-dev";
+const SESSION_SECRET = import.meta.env.SESSION_SECRET || "default-secret-key-for-dev";
 
 export const sessionCookie = createCookie("__session", {
   secrets: [SESSION_SECRET],
   sameSite: "lax",
   path: "/",
   httpOnly: true,
-  secure: process.env.NODE_ENV === "production",
+  secure: import.meta.env.PROD,
   maxAge: COOKIE_CONFIG.SESSION_MAX_AGE,
 });
 

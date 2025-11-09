@@ -2,8 +2,8 @@ import type { SessionData } from "./session.js";
 
 // Check if we should skip auth (development mode by default, unless explicitly disabled)
 export function shouldSkipAuth(): boolean {
-  const nodeEnv = process.env.NODE_ENV;
-  const skipAuth = process.env.SKIP_AUTH;
+  const nodeEnv = import.meta.env.MODE;
+  const skipAuth = import.meta.env.SKIP_AUTH;
 
   // In development, skip auth by default unless explicitly disabled
   if (nodeEnv === "development") {
