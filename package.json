@@ -1,25 +1,75 @@
 {
   "name": "@simbul/auth-components",
   "version": "1.0.0",
+  "description": "Auth0 authentication components and utilities for React Router v7 applications with server-side rendering",
   "type": "module",
-  "main": "./src/index.ts",
-  "types": "./src/index.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "bin": {
     "auth-components-setup": "./bin/setup.js"
   },
   "exports": {
-    ".": "./src/index.ts",
-    "./components": "./src/components/index.ts",
-    "./utils": "./src/utils/index.ts",
-    "./routes": "./src/routes/index.ts",
-    "./routes/login": "./src/routes/login.tsx",
-    "./routes/logout": "./src/routes/logout.tsx",
-    "./routes/callback": "./src/routes/callback.tsx"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./components": {
+      "types": "./dist/components/index.d.ts",
+      "import": "./dist/components/index.js"
+    },
+    "./utils": {
+      "types": "./dist/utils/index.d.ts",
+      "import": "./dist/utils/index.js"
+    },
+    "./routes": {
+      "types": "./dist/routes/index.d.ts",
+      "import": "./dist/routes/index.js"
+    },
+    "./routes/login": {
+      "types": "./dist/routes/login.d.ts",
+      "import": "./dist/routes/login.js"
+    },
+    "./routes/logout": {
+      "types": "./dist/routes/logout.d.ts",
+      "import": "./dist/routes/logout.js"
+    },
+    "./routes/callback": {
+      "types": "./dist/routes/callback.d.ts",
+      "import": "./dist/routes/callback.js"
+    }
   },
   "files": [
+    "dist",
     "src",
-    "bin"
+    "bin",
+    "README.md",
+    "LICENSE"
   ],
+  "scripts": {
+    "build": "tsc",
+    "prepare": "npm run build",
+    "clean": "rm -rf dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/simbul/auth-components.git"
+  },
+  "keywords": [
+    "auth0",
+    "authentication",
+    "react-router",
+    "react-router-v7",
+    "ssr",
+    "oauth2",
+    "typescript"
+  ],
+  "author": "Simbul",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "@types/node": "^20.0.0",
+    "@types/react": "^19.0.0"
+  },
   "peerDependencies": {
     "react": "^19.0.0",
     "react-router": "^7.0.0",
