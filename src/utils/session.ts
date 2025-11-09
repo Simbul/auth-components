@@ -1,5 +1,5 @@
 import { createCookie } from "react-router";
-import type { TokenResponse } from "./auth";
+import type { TokenResponse } from "./auth.js";
 
 // Cookie and Session Configuration
 const COOKIE_CONFIG = {

@@ -1,5 +1,5 @@
 import { createCookie } from "react-router";
-import { COOKIE_CONFIG } from "./session";
+import { COOKIE_CONFIG } from "./session.js";
 
 // Auth0 configuration and types
 interface Auth0Config {

@@ -1,8 +1,8 @@
 import { redirect } from "react-router";
 import type { LoaderFunctionArgs, ActionFunctionArgs } from "react-router";
-import { getAuth0Config, getLogoutUrl } from "../utils/auth";
-import { sessionCookie } from "../utils/session";
-import { shouldSkipAuth } from "../utils/dev-auth";
+import { getAuth0Config, getLogoutUrl } from "../utils/auth.js";
+import { sessionCookie } from "../utils/session.js";
+import { shouldSkipAuth } from "../utils/dev-auth.js";
 
 export async function loader({ request }: LoaderFunctionArgs) {
   return handleLogout(request);

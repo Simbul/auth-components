@@ -1,6 +1,6 @@
-import { getAuth0Config, refreshTokens } from "./auth";
-import { createSessionData, createSessionHeader, sessionNeedsRefresh } from "./session";
-import type { SessionData } from "./session";
+import { getAuth0Config, refreshTokens } from "./auth.js";
+import { createSessionData, createSessionHeader, sessionNeedsRefresh } from "./session.js";
+import type { SessionData } from "./session.js";
 
 // Refresh tokens if needed and return updated session data
 export async function refreshSessionIfNeeded(

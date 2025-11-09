@@ -1,8 +1,8 @@
 // Export all utilities
-export * from "./utils";
+export * from "./utils/index.js";
 
 // Export components
-export * from "./components";
+export * from "./components/index.js";
 
 // Export route handlers
-export * from "./routes";
+export * from "./routes/index.js";

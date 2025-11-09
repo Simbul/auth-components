@@ -1,7 +1,7 @@
 import { redirect } from "react-router";
 import type { LoaderFunctionArgs } from "react-router";
-import { getAuth0Config, createAuthorizationRequest } from "../utils/auth";
-import { getSession } from "../utils/session";
+import { getAuth0Config, createAuthorizationRequest } from "../utils/auth.js";
+import { getSession } from "../utils/session.js";
 
 export async function loader({ request }: LoaderFunctionArgs) {
   // Check if user is already authenticated

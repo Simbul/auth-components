@@ -1,4 +1,4 @@
-import type { TokenResponse } from "./auth";
+import type { TokenResponse } from "./auth.js";
 
 // Constants
 const REFRESH_WINDOW_MS = 5 * 60 * 1000; // 5 minutes in milliseconds

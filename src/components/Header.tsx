@@ -1,5 +1,5 @@
 import { Link, useRouteLoaderData } from "react-router";
-import type { SessionData } from "../utils/session";
+import type { SessionData } from "../utils/session.js";
 
 function decodeJwt(token: string) {
   try {

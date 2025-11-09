@@ -1,7 +1,7 @@
-import { getSession } from "./session";
-import { refreshSessionIfNeeded } from "./refresh";
-import { shouldSkipAuth, createDevSession } from "./dev-auth";
-import type { SessionData } from "./session";
+import { getSession } from "./session.js";
+import { refreshSessionIfNeeded } from "./refresh.js";
+import { shouldSkipAuth, createDevSession } from "./dev-auth.js";
+import type { SessionData } from "./session.js";
 
 export interface AuthLoaderData {
   session: SessionData | null;

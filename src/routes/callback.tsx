@@ -1,7 +1,7 @@
 import { redirect } from "react-router";
 import type { LoaderFunctionArgs } from "react-router";
-import { getAuth0Config, exchangeCodeForTokens, verifyState } from "../utils/auth";
-import { createSessionData, createSessionHeader } from "../utils/session";
+import { getAuth0Config, exchangeCodeForTokens, verifyState } from "../utils/auth.js";
+import { createSessionData, createSessionHeader } from "../utils/session.js";
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const url = new URL(request.url);

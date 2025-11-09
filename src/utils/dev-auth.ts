@@ -1,4 +1,4 @@
-import type { SessionData } from "./session";
+import type { SessionData } from "./session.js";
 
 // Check if we should skip auth (development mode by default, unless explicitly disabled)
 export function shouldSkipAuth(): boolean {
