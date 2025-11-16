@@ -3,7 +3,6 @@
 ## Project Overview
 
 **Package Name:** `@simbul/auth-components`
-**Version:** 1.0.6
 **Purpose:** Auth0 authentication components and utilities for React Router v7 applications with server-side rendering
 **License:** MIT
 **Repository:** https://github.com/simbul/auth-components
@@ -414,7 +413,7 @@ export * from "./utils/index"; // Missing .js
    - Generates `.d.ts` declaration files
    - Creates source maps
 3. **Test locally** via npm link or file reference
-4. **Version bump** in `package.json`
+4. **Version bump** in `package.json` and all other relevant files
 5. **Commit changes** with descriptive message
 6. **Push to GitHub** and create PR if needed
 
