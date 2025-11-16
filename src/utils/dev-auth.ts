@@ -44,7 +44,7 @@ function createMockJwt(): string {
     sub: "dev|123456789",
     name: "Dev User",
     nickname: "devuser",
-    picture: "/mock-avatar.svg",
+    picture: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23dbeafe'/%3E%3Ccircle cx='50' cy='35' r='16' fill='%233b82f6'/%3E%3Cpath d='M50 55c-17 0-25 8-25 20v10h50V75c0-12-8-20-25-20z' fill='%233b82f6'/%3E%3C/svg%3E",
     email: "dev@example.com",
     email_verified: true,
     iat: Math.floor(Date.now() / 1000),
