@@ -47,7 +47,7 @@ export default function Header({
           <span className="badge badge-warning badge-lg font-semibold">Preview</span>
         )}
       </div>
-      <div className="flex-none gap-2 items-center">
+      <div className="flex flex-none gap-2 items-center">
         {session ? (
           <div className="flex items-center gap-2">
             {user?.picture && (
