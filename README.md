@@ -33,7 +33,7 @@ Shared Auth0 authentication components and utilities for React Router applicatio
 ### 1. Install the package
 
 ```bash
-npm install github:simbul/auth-components#v1.0.6
+npm install github:simbul/auth-components#v1.1.0
 ```
 
 **Ensure peer dependencies are installed:**
@@ -182,6 +182,33 @@ You typically won't need these if using `getAuthLoaderData`, but they're availab
 - `refreshSessionIfNeeded(request, session)` - Auto-refresh tokens
 - `shouldSkipAuth()` - Check if auth should be skipped (dev mode)
 - `createDevSession()` - Create mock session for development
+- **`getUserFromJwt(token)`** - Extract typed user information from a JWT token
+  - **Parameters:**
+    - `token` (string) - The JWT token (typically `session.idToken`)
+  - **Returns:** `JwtUser | null` - User information object or null if decoding fails
+  - **Example:**
+    ```typescript
+    import { getUserFromJwt, type JwtUser } from "@simbul/auth-components";
+
+    const user = getUserFromJwt(session.idToken);
+    if (user) {
+      console.log(user.name, user.email, user.picture);
+    }
+    ```
+  - **JwtUser interface:**
+    ```typescript
+    interface JwtUser {
+      sub: string;           // User ID
+      name?: string;         // Full name
+      nickname?: string;     // Username/nickname
+      picture?: string;      // Profile picture URL
+      email?: string;        // Email address
+      email_verified?: boolean;
+      iat?: number;          // Issued at (seconds)
+      exp?: number;          // Expiration (seconds)
+      [key: string]: any;    // Additional claims
+    }
+    ```
 
 ### Routes
 

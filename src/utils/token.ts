@@ -4,6 +4,31 @@ import type { TokenResponse } from "./auth.js";
 const REFRESH_WINDOW_MS = 5 * 60 * 1000; // 5 minutes in milliseconds
 
 /**
+ * Represents the user information contained in a JWT token payload.
+ * Based on Auth0's standard JWT claims.
+ */
+export interface JwtUser {
+  /** User identifier (subject) */
+  sub: string;
+  /** User's full name */
+  name?: string;
+  /** User's nickname or username */
+  nickname?: string;
+  /** URL to user's profile picture */
+  picture?: string;
+  /** User's email address */
+  email?: string;
+  /** Whether the email has been verified */
+  email_verified?: boolean;
+  /** Issued at timestamp (seconds since epoch) */
+  iat?: number;
+  /** Expiration timestamp (seconds since epoch) */
+  exp?: number;
+  /** Any additional claims */
+  [key: string]: any;
+}
+
+/**
  * Utility function to parse a JWT token and return its payload.
  * Used primarily for extracting user information from the id_token.
  */
@@ -79,4 +104,42 @@ export function isValidToken(token: string): boolean {
 export function getTokenExpirationTime(token: string): number | null {
   const payload = parseJwt(token);
   return payload?.exp ? payload.exp * 1000 : null;
+}
+
+/**
+ * Extracts user information from a JWT token (typically the id_token).
+ * Returns a properly typed JwtUser object containing the user's claims.
+ *
+ * @param token - The JWT token string to decode
+ * @returns JwtUser object with user information, or null if decoding fails
+ *
+ * @example
+ * ```typescript
+ * const user = getUserFromJwt(session.idToken);
+ * if (user) {
+ *   console.log(user.name, user.email, user.picture);
+ * }
+ * ```
+ */
+export function getUserFromJwt(token: string): JwtUser | null {
+  try {
+    const base64Url = token.split('.')[1];
+    if (!base64Url) {
+      console.error('Invalid JWT format - no payload section');
+      return null;
+    }
+
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split('')
+        .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+        .join('')
+    );
+
+    return JSON.parse(jsonPayload) as JwtUser;
+  } catch (e) {
+    console.error('Error decoding JWT:', e);
+    return null;
+  }
 }

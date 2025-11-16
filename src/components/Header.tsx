@@ -1,19 +1,6 @@
 import { Link, useRouteLoaderData } from "react-router";
 import type { SessionData } from "../utils/session.js";
-
-function decodeJwt(token: string) {
-  try {
-    const base64Url = token.split('.')[1];
-    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-    }).join(''));
-    return JSON.parse(jsonPayload);
-  } catch (e) {
-    console.error('Error decoding JWT:', e);
-    return null;
-  }
-}
+import { getUserFromJwt } from "../utils/token.js";
 
 export interface HeaderProps {
   appName?: string;
@@ -37,7 +24,7 @@ export default function Header({
   const data = useRouteLoaderData("root") as RootLoaderData | null;
   const session = data?.session ?? null;
   const isPreview = showPreviewBadge && (data?.isPreview ?? false);
-  const user = session?.idToken ? decodeJwt(session.idToken) : null;
+  const user = session?.idToken ? getUserFromJwt(session.idToken) : null;
 
   return (
     <header className={className}>
