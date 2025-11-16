@@ -93,6 +93,28 @@ export default [
 ] satisfies RouteConfig;
 ```
 
+### 4. Configure Tailwind CSS
+
+**Important:** Tailwind scans files at build time to determine which classes to include in the final stylesheet. If classes are only used in external libraries (like `@simbul/auth-components`), Tailwind won't include them unless you tell it to scan those files.
+
+Add this to your `app.css` (or main CSS file) to ensure the Header component is properly styled:
+
+```css
+@source '../node_modules/@simbul/auth-components/src';
+```
+
+Alternatively, if using a `tailwind.config.js` file, you can add the library path to the `content` array:
+
+```javascript
+module.exports = {
+  content: [
+    './app/**/*.{js,jsx,ts,tsx}',
+    './node_modules/@simbul/auth-components/src/**/*.{js,jsx,ts,tsx}',
+  ],
+  // ... rest of your config
+}
+```
+
 ## Usage
 
 ### 1. Set up your root loader
