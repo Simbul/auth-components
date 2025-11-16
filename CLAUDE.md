@@ -182,6 +182,48 @@ Handles automatic token refresh logic:
 
 **Note:** Always preserves the existing refresh token as fallback since Auth0 may not return a new one.
 
+### Token Utilities (`src/utils/token.ts`)
+
+**`getUserFromJwt(token: string): JwtUser | null`**
+
+Extracts typed user information from a JWT token (typically the `idToken`).
+
+**What it does:**
+1. Decodes the JWT token payload
+2. Returns properly typed user information
+3. Returns `null` if decoding fails
+
+**JwtUser interface:**
+```typescript
+interface JwtUser {
+  sub: string;              // User ID (required)
+  name?: string;            // Full name
+  nickname?: string;        // Username/nickname
+  picture?: string;         // Profile picture URL
+  email?: string;           // Email address
+  email_verified?: boolean; // Email verification status
+  iat?: number;             // Issued at (seconds since epoch)
+  exp?: number;             // Expiration (seconds since epoch)
+  [key: string]: any;       // Additional custom claims
+}
+```
+
+**Usage:**
+```typescript
+import { getUserFromJwt } from "@simbul/auth-components";
+
+const user = getUserFromJwt(session.idToken);
+if (user) {
+  console.log(user.name, user.email, user.picture);
+}
+```
+
+**Other token utilities:**
+- `parseJwt(token)` - Low-level JWT parsing (returns untyped payload)
+- `needsRefresh(token)` - Check if token needs refresh
+- `isValidToken(token)` - Validate token format and expiration
+- `getTokenExpirationTime(token)` - Get expiration timestamp in milliseconds
+
 ### Development Mode (`src/utils/dev-auth.ts`)
 
 **`shouldSkipAuth(): boolean`**
@@ -811,13 +853,13 @@ The package provides multiple entry points (from `package.json`):
 
 ```typescript
 // Main export - everything
-import { getAuthLoaderData, Header } from "@simbul/auth-components";
+import { getAuthLoaderData, Header, getUserFromJwt, type JwtUser } from "@simbul/auth-components";
 
 // Components only
 import { Header } from "@simbul/auth-components/components";
 
 // Utils only
-import { getSession, refreshTokens } from "@simbul/auth-components/utils";
+import { getSession, refreshTokens, getUserFromJwt, type JwtUser } from "@simbul/auth-components/utils";
 
 // Routes only (for re-export in consuming app)
 export { loader, default } from "@simbul/auth-components/routes/login";
