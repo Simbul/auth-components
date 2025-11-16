@@ -1,0 +1,120 @@
+name: Release and Publish
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'package.json'
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Get version from package.json
+        id: package-version
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "tag=v$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Check if tag exists
+        id: check-tag
+        run: |
+          if git rev-parse "v${{ steps.package-version.outputs.version }}" >/dev/null 2>&1; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+            echo "Tag v${{ steps.package-version.outputs.version }} already exists, skipping release"
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+            echo "Creating new release for v${{ steps.package-version.outputs.version }}"
+          fi
+
+      - name: Install dependencies
+        if: steps.check-tag.outputs.exists == 'false'
+        run: npm ci
+
+      - name: Build package
+        if: steps.check-tag.outputs.exists == 'false'
+        run: npm run build
+
+      - name: Create and push tag
+        if: steps.check-tag.outputs.exists == 'false'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag -a "v${{ steps.package-version.outputs.version }}" -m "Release version ${{ steps.package-version.outputs.version }}"
+          git push origin "v${{ steps.package-version.outputs.version }}"
+
+      - name: Extract changelog for this version
+        if: steps.check-tag.outputs.exists == 'false'
+        id: changelog
+        run: |
+          VERSION="${{ steps.package-version.outputs.version }}"
+
+          # Try to extract changelog section for this version
+          if [ -f "CHANGELOG.md" ]; then
+            # Extract section between ## [VERSION] and next ## or end of file
+            CHANGELOG=$(awk "/## \[${VERSION}\]/,/## \[/" CHANGELOG.md | sed '$d' | tail -n +2)
+
+            if [ -z "$CHANGELOG" ]; then
+              CHANGELOG="Release version ${VERSION}"
+            fi
+          else
+            CHANGELOG="Release version ${VERSION}"
+          fi
+
+          # Save to file for multiline handling
+          echo "$CHANGELOG" > /tmp/changelog.txt
+          echo "file=/tmp/changelog.txt" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub Release
+        if: steps.check-tag.outputs.exists == 'false'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const version = '${{ steps.package-version.outputs.version }}';
+            const tag = 'v' + version;
+            const changelogFile = '${{ steps.changelog.outputs.file }}';
+
+            let body = `Release version ${version}`;
+            if (fs.existsSync(changelogFile)) {
+              body = fs.readFileSync(changelogFile, 'utf8');
+            }
+
+            try {
+              const release = await github.rest.repos.createRelease({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                tag_name: tag,
+                name: `${tag}`,
+                body: body,
+                draft: false,
+                prerelease: version.includes('-') || version.includes('alpha') || version.includes('beta') || version.includes('rc')
+              });
+              console.log(`Created release: ${release.data.html_url}`);
+            } catch (error) {
+              console.error('Error creating release:', error);
+              core.setFailed(error.message);
+            }
+
+      - name: Publish to npm
+        if: steps.check-tag.outputs.exists == 'false'
+        run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
