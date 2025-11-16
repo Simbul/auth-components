@@ -42,7 +42,8 @@
     "dist",
     "src",
     "bin",
-    "README.md"
+    "README.md",
+    "LICENSE"
   ],
   "scripts": {
     "build": "tsc",
@@ -62,7 +63,8 @@
     "oauth2",
     "typescript"
   ],
-  "author": "Simbul",
+  "author": "Alessandro Morandi",
+  "license": "MIT",
   "devDependencies": {
     "@types/node": "^20.0.0",
     "@types/react": "^19.0.0",
