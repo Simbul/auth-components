@@ -43,8 +43,9 @@ function createMockJwt(): string {
   const payload = {
     sub: "dev|123456789",
     name: "Dev User",
-    email: "dev@example.com",
+    nickname: "devuser",
     picture: "/mock-avatar.svg",
+    email: "dev@example.com",
     email_verified: true,
     iat: Math.floor(Date.now() / 1000),
     exp: Math.floor(Date.now() / 1000) + (365 * 24 * 60 * 60), // 1 year

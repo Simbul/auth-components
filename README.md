@@ -33,7 +33,7 @@ Shared Auth0 authentication components and utilities for React Router applicatio
 ### 1. Install the package
 
 ```bash
-npm install github:simbul/auth-components#v1.0.4
+npm install github:simbul/auth-components#v1.0.5
 ```
 
 **Ensure peer dependencies are installed:**
