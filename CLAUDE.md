@@ -507,9 +507,10 @@ SKIP_AUTH=true npm run dev
 
 ### Version Management
 
-Current version: **1.0.6**
+Current version: **1.1.0**
 
 **Version History (recent):**
+- v1.1.0 - Added getUserFromJwt() function with JwtUser interface for typed user data extraction
 - v1.0.6 - Updated mock JWT with embedded SVG avatar
 - v1.0.5 - Added nickname to mock JWT payload
 - v1.0.4 - Tailwind CSS configuration documentation
@@ -1055,5 +1056,5 @@ When working on this codebase, consider:
 ---
 
 **Last Updated:** 2025-11-16
-**Package Version:** 1.0.6
+**Package Version:** 1.1.0
 **Maintained By:** Alessandro Morandi
