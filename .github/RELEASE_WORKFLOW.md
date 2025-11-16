@@ -39,9 +39,11 @@ That's it!
 
 ## Version Bumping Strategy
 
+**No bump required:**
+- Documentation updates
+
 **Patch (1.1.0 → 1.1.1):**
 - Bug fixes
-- Documentation updates
 - Internal refactoring
 
 **Minor (1.1.0 → 1.2.0):**
