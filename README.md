@@ -39,7 +39,7 @@ npm install
 
 **For GitHub repository:**
 ```bash
-npm install github:simbul/auth-components#v1.0.3
+npm install github:simbul/auth-components#v1.0.4
 ```
 
 **Ensure peer dependencies are installed:**
