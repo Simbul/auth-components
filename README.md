@@ -32,12 +32,6 @@ Shared Auth0 authentication components and utilities for React Router applicatio
 
 ### 1. Install the package
 
-**For local package (within monorepo):**
-```bash
-npm install
-```
-
-**For GitHub repository:**
 ```bash
 npm install github:simbul/auth-components#v1.0.4
 ```
@@ -56,12 +50,6 @@ Most React Router v7 apps already have these installed. npm will warn you if any
 
 This will automatically create the required route files in your `app/routes/` directory:
 
-**For local package:**
-```bash
-node packages/auth-components/bin/setup.js
-```
-
-**For installed package:**
 ```bash
 npx auth-components-setup
 ```
