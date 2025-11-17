@@ -163,7 +163,7 @@ Set this in your Netlify dashboard under Site settings → Environment variables
 
 ```toml
 [context.production.environment]
-  SKIP_AUTH = "false"
+SKIP_AUTH = "false"
 ```
 
 ## API
