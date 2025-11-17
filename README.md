@@ -159,7 +159,12 @@ SKIP_AUTH=false  # Set to true to skip Auth0 in development
 >
 > **You MUST explicitly set `SKIP_AUTH=false` in your Netlify production environment variables** to ensure authentication is enabled in production. Without this, authentication will be bypassed and your app will use mock sessions.
 >
-> Set this in your Netlify dashboard under Site settings → Environment variables, or in your `netlify.toml` file.
+> Set this in your Netlify dashboard under Site settings → Environment variables, or add to your `netlify.toml`:
+>
+> ```toml
+> [context.production.environment]
+>   SKIP_AUTH = "false"
+> ```
 
 ## API
 
