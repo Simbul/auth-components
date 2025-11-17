@@ -153,6 +153,19 @@ NODE_ENV=production
 SKIP_AUTH=false  # Set to true to skip Auth0 in development
 ```
 
+#### ⚠️ Important for Netlify deployments
+
+When deploying to Netlify, neither `MODE` nor `NODE_ENV` are available at runtime (only at build time). This means the package cannot automatically detect the production environment.
+
+**You MUST explicitly set `SKIP_AUTH=false` in your Netlify production environment variables** to ensure authentication is enabled in production. Without this, authentication will be bypassed and your app will use mock sessions.
+
+Set this in your Netlify dashboard under Site settings → Environment variables, or add to your `netlify.toml`:
+
+```toml
+[context.production.environment]
+SKIP_AUTH = "false"
+```
+
 ## API
 
 ### Components
