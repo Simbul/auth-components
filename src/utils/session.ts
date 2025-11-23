@@ -25,11 +25,24 @@ function isProd(): boolean {
   return false;
 }
 
+// Get session max age from environment variable (in days) or use default of 7 days
+function getSessionMaxAge(): number {
+  const envDays = getEnv("SESSION_MAX_AGE_DAYS");
+  if (envDays) {
+    const days = parseInt(envDays, 10);
+    if (!isNaN(days) && days > 0) {
+      return days * 24 * 60 * 60; // Convert days to seconds
+    }
+    console.warn(`Invalid SESSION_MAX_AGE_DAYS value: "${envDays}", using default of 7 days`);
+  }
+  return 7 * 24 * 60 * 60; // Default: 7 days in seconds
+}
+
 // Cookie and Session Configuration
 const COOKIE_CONFIG = {
-  // Maximum lifetime of the session cookie (24 hours)
+  // Maximum lifetime of the session cookie (default: 7 days, configurable via SESSION_MAX_AGE_DAYS env var)
   // This is an upper limit - the actual session expiration is based on the token expiration
-  SESSION_MAX_AGE: 24 * 60 * 60, // in seconds
+  SESSION_MAX_AGE: getSessionMaxAge(),
 
   // Time before token expiration when we should attempt to refresh (5 minutes)
   REFRESH_WINDOW: 5 * 60 * 1000, // in milliseconds
@@ -37,7 +50,7 @@ const COOKIE_CONFIG = {
   // Time allowed for completing the login flow (1 hour)
   // Used for the state cookie in the OAuth flow
   AUTH_STATE_MAX_AGE: 60 * 60, // in seconds
-} as const;
+};
 
 // Session cookie configuration
 const SESSION_SECRET = getEnv("SESSION_SECRET") || "default-secret-key-for-dev";
