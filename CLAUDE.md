@@ -37,7 +37,7 @@ React Router v7+ applications requiring SSR-based authentication (not Remix, Nex
 - Cookie configuration in `src/utils/session.ts`
 
 ### 2. Token Lifecycle
-- **Session Max Age:** 24 hours (upper limit)
+- **Session Max Age:** 7 days (default, configurable via `SESSION_MAX_AGE_DAYS` env var)
 - **Refresh Window:** 5 minutes before expiration
 - **Auth State Max Age:** 1 hour (OAuth flow timeout)
 - Automatic refresh handled in loader via `getAuthLoaderData()`
@@ -142,7 +142,8 @@ AUTH0_CLIENT_SECRET=your_client_secret
 AUTH0_AUDIENCE=optional_api_identifier  # Optional
 SESSION_SECRET=your_secret_key_for_cookies
 NODE_ENV=production
-SKIP_AUTH=false  # Set to true to bypass auth
+SKIP_AUTH=false                         # Set to true to bypass auth
+SESSION_MAX_AGE_DAYS=7                  # Optional, default is 7 days
 ```
 
 ### Session Management (`src/utils/session.ts`)
@@ -507,9 +508,10 @@ SKIP_AUTH=true npm run dev
 
 ### Version Management
 
-Current version: **1.1.0**
+Current version: **1.2.0**
 
 **Version History (recent):**
+- v1.2.0 - Changed default SESSION_MAX_AGE to 7 days and made it configurable via SESSION_MAX_AGE_DAYS env var
 - v1.1.0 - Added getUserFromJwt() function with JwtUser interface for typed user data extraction
 - v1.0.6 - Updated mock JWT with embedded SVG avatar
 - v1.0.5 - Added nickname to mock JWT payload
@@ -1055,6 +1057,6 @@ When working on this codebase, consider:
 
 ---
 
-**Last Updated:** 2025-11-16
-**Package Version:** 1.1.0
+**Last Updated:** 2025-11-23
+**Package Version:** 1.2.0
 **Maintained By:** Alessandro Morandi

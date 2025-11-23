@@ -33,7 +33,7 @@ Shared Auth0 authentication components and utilities for React Router applicatio
 ### 1. Install the package
 
 ```bash
-npm install github:simbul/auth-components#v1.1.0
+npm install github:simbul/auth-components#v1.2.0
 ```
 
 **Ensure peer dependencies are installed:**
@@ -150,7 +150,8 @@ AUTH0_CLIENT_SECRET=your_client_secret
 AUTH0_AUDIENCE=optional_api_identifier
 SESSION_SECRET=your_secret_key_for_cookies
 NODE_ENV=production
-SKIP_AUTH=false  # Set to true to skip Auth0 in development
+SKIP_AUTH=false             # Set to true to skip Auth0 in development
+SESSION_MAX_AGE_DAYS=7      # Optional, default is 7 days
 ```
 
 #### ⚠️ Important for Netlify deployments
