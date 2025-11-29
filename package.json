@@ -1,6 +1,6 @@
 {
   "name": "@simbul/auth-components",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Auth0 authentication components and utilities for React Router v7 applications with server-side rendering",
   "type": "module",
   "main": "./dist/index.js",

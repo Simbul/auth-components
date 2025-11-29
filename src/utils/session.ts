@@ -69,6 +69,7 @@ export interface SessionData {
   idToken: string;
   refreshToken: string;
   expiresAt: number; // Timestamp in milliseconds when the access token expires
+  isDev?: boolean; // If true, this is a mock dev session that is never persisted or used (only created fresh on each request)
 }
 
 // Create session data from token response

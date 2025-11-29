@@ -1,4 +1,4 @@
-import { getSession } from "./session.js";
+import { getSession, createSessionHeader } from "./session.js";
 import { refreshSessionIfNeeded } from "./refresh.js";
 import { shouldSkipAuth, createDevSession } from "./dev-auth.js";
 import type { SessionData } from "./session.js";
@@ -31,8 +31,12 @@ export interface AuthLoaderData {
 export async function getAuthLoaderData(request: Request): Promise<AuthLoaderData> {
   // Development mode: skip Auth0 and use mock session
   if (shouldSkipAuth()) {
+    const devSession = createDevSession();
     return {
-      session: createDevSession(),
+      session: devSession,
+      headers: {
+        "Set-Cookie": await createSessionHeader(devSession),
+      },
     };
   }
 
