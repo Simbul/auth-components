@@ -508,9 +508,10 @@ SKIP_AUTH=true npm run dev
 
 ### Version Management
 
-Current version: **1.2.0**
+Current version: **1.2.1**
 
 **Version History (recent):**
+- v1.2.1 - Dev session now expires in 3 hours (instead of 1 year) and always returns headers for realistic local testing; added isDev flag to SessionData
 - v1.2.0 - Changed default SESSION_MAX_AGE to 7 days and made it configurable via SESSION_MAX_AGE_DAYS env var
 - v1.1.0 - Added getUserFromJwt() function with JwtUser interface for typed user data extraction
 - v1.0.6 - Updated mock JWT with embedded SVG avatar
@@ -1057,6 +1058,6 @@ When working on this codebase, consider:
 
 ---
 
-**Last Updated:** 2025-11-23
-**Package Version:** 1.2.0
+**Last Updated:** 2025-11-29
+**Package Version:** 1.2.1
 **Maintained By:** Alessandro Morandi

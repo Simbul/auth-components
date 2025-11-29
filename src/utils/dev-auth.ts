@@ -48,7 +48,7 @@ function createMockJwt(): string {
     email: "dev@example.com",
     email_verified: true,
     iat: Math.floor(Date.now() / 1000),
-    exp: Math.floor(Date.now() / 1000) + (365 * 24 * 60 * 60), // 1 year
+    exp: Math.floor(Date.now() / 1000) + (3 * 60 * 60), // 3 hours
   };
 
   const header = { alg: "none", typ: "JWT" };
@@ -58,14 +58,15 @@ function createMockJwt(): string {
   return `${encodedHeader}.${encodedPayload}.mock-signature`;
 }
 
-// Create a permanent dev session (never expires in practice)
+// Create a dev session that expires in 3 hours (for realistic local testing)
 export function createDevSession(): SessionData {
-  const oneYear = 365 * 24 * 60 * 60 * 1000;
+  const threeHours = 3 * 60 * 60 * 1000;
 
   return {
     accessToken: "dev-access-token",
     idToken: createMockJwt(),
     refreshToken: "dev-refresh-token",
-    expiresAt: Date.now() + oneYear,
+    expiresAt: Date.now() + threeHours,
+    isDev: true,
   };
 }
