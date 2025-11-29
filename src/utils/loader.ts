@@ -17,14 +17,23 @@ export interface AuthLoaderData {
  *
  * Use this in your root loader to eliminate Auth0 boilerplate.
  *
+ * IMPORTANT: You must use React Router's `data` utility to properly pass headers.
+ * Simply spreading `authData` or returning `{ ...authData }` will NOT work correctly.
+ *
  * @example
  * ```typescript
+ * import { data } from "react-router";
+ *
  * export async function loader({ request }: Route.LoaderFunctionArgs) {
- *   const authData = await getAuthLoaderData(request);
- *   return {
- *     ...authData,
- *     isPreview: url.hostname.includes('deploy-preview-'), // Your custom data
- *   };
+ *   const { session, headers } = await getAuthLoaderData(request);
+ *   const url = new URL(request.url);
+ *   return data(
+ *     {
+ *       session,
+ *       isPreview: url.hostname.includes('deploy-preview-'), // Your custom data
+ *     },
+ *     { headers }
+ *   );
  * }
  * ```
  */

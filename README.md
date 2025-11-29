@@ -108,17 +108,23 @@ module.exports = {
 ### 1. Set up your root loader
 
 ```typescript
+import { data } from "react-router";
 import { getAuthLoaderData } from "@simbul/auth-components";
 
 export async function loader({ request }: Route.LoaderFunctionArgs) {
-  const authData = await getAuthLoaderData(request);
+  const { session, headers } = await getAuthLoaderData(request);
 
-  return {
-    ...authData,
-    // Add any additional app-specific data here
-  };
+  return data(
+    {
+      session,
+      // Add any additional app-specific data here
+    },
+    { headers }
+  );
 }
 ```
+
+**Important:** You must use React Router's `data` utility to properly pass headers (including the session cookie). Simply spreading `authData` or returning `{ ...authData }` will **not** work correctly.
 
 This single helper handles:
 - ✅ Development mode bypass (uses mock session when `SKIP_AUTH=true`)

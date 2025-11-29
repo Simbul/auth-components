@@ -115,14 +115,22 @@ This is the main entry point for authentication. Use in your root loader.
 
 **Usage:**
 ```typescript
+import { data } from "react-router";
+import { getAuthLoaderData } from "@simbul/auth-components";
+
 export async function loader({ request }: Route.LoaderFunctionArgs) {
-  const authData = await getAuthLoaderData(request);
-  return {
-    ...authData,
-    // Add app-specific data
-  };
+  const { session, headers } = await getAuthLoaderData(request);
+  return data(
+    {
+      session,
+      // Add app-specific data
+    },
+    { headers }
+  );
 }
 ```
+
+**Important:** You must use React Router's `data` utility to properly pass headers (including the session cookie). Simply spreading `authData` or returning `{ ...authData }` will **not** work correctly because headers won't be interpreted and the session cookie won't be set.
 
 ### Authentication Flow (`src/utils/auth.ts`)
 
